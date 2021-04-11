@@ -1,0 +1,26 @@
+echo "[`hostname`]"
+
+# Repositories  
+sudo cat << EOF | sudo tee /etc/apk/repositories > /dev/null 
+http://dl-cdn.alpinelinux.org/alpine/v$(cat /etc/alpine-release | cut -d'.' -f1,2)/main
+http://dl-cdn.alpinelinux.org/alpine/v$(cat /etc/alpine-release | cut -d'.' -f1,2)/community
+EOF
+[ "$?" == "0" ] && echo "Add apk repositories... OK"
+sudo apk update &>/dev/null
+[ "$?" == "0" ] && echo "Update apk repositories... OK"
+
+# Install Openjdk8
+sudo apk add openjdk8 &>/dev/null
+[ "$?" == "0" ] && echo "Install openjdk-1.8-jdk... OK" 
+
+# Install Python3 & procps & sudo & nano & bash 
+sudo apk add python3 procps &>/dev/null
+[ "$?" == "0" ] && echo "Install Python3... OK"
+sudo rm -rf /var/cache/apk/* &>/dev/null
+
+
+# SSH config setting
+sudo sed -i 's/^export PATH/#&/' /etc/profile  && \
+sudo sed -i '/PermitUserEnvironment/c\PermitUserEnvironment yes' /etc/ssh/sshd_config
+sudo /etc/init.d/sshd restart &> /dev/null
+[ "$?" == "0" ] && echo "Setting SSH environment... OK"

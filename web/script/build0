@@ -1,0 +1,8 @@
+WEB_URL=$1
+echo "[`hostname`]"
+
+# SSH Environment
+wget -qO - "$WEB_URL/config/environment" | sudo tee ~/.ssh/environment &>/dev/null
+[ "$?" == "0" ] && echo "environment copied"
+
+

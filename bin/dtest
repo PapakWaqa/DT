@@ -1,0 +1,39 @@
+
+#!/bin/bash
+echo "[HDFS]"
+nc -w 1 -z mas01 22 &>/dev/null
+[ "$?" != 0 ] && echo 'mas01 exited' && exit 1
+ssh mas01 jps | grep 'NameNode' &>/dev/null
+[ "$?" != 0 ] && echo "HDFS exited" && exit 1
+ssh mas01 "hdfs dfsadmin -report &> /tmp/out"
+ssh mas01 "cat /tmp/out | grep 'Live datanodes'"
+ssh mas01 "cat /tmp/out | grep 'Name: '"
+echo ""
+
+echo "[YARN]"
+nc -w 1 -z mas01 22 &>/dev/null
+[ "$?" != 0 ] && echo 'mas01 exited' && exit 1
+ssh mas01 jps | grep 'ResourceManager' &>/dev/null
+[ "$?" != 0 ] && echo "YARN exited" && exit 1
+ssh mas01 "yarn node -list -all 2>/dev/null"
+
+
+echo""
+echo [MapReduce]
+ssh mas01 "hadoop jar /opt/hadoop-2.10.1/share/hadoop/mapreduce/hadoop-mapreduce-examples-2.10.1.jar pi 2 10 &> /tmp/out"
+ssh mas01 "cat /tmp/out | grep ' Pi '"
+
+echo""
+ssh mas01 "hdfs dfs -ls /tmp/spark-events &>/dev/null"
+[ "$?" != "0" ] && ssh mas01 "hdfs dfs -mkdir /tmp/spark-events " && ssh mas01 "hdfs dfs -chmod -R 777 /tmp"
+echo [Spark]
+ssh mas01 "spark-submit --master yarn --deploy-mode cluster --driver-memory 512m --num-executors 1 /opt/spark-3.0.2-bin-without-hadoop/examples/src/main/python/pi.py 5 2>/tmp/spk.log && cat /tmp/spk.log |grep tracking|tail -n 1"
+
+
+echo ""
+echo [HBase]
+nc -w 1 -z hbma 22 &>/dev/null
+[ "$?" != 0 ] && echo 'hbma exited' && exit 1
+ssh hbma jps | grep 'HMaster' &>/dev/null
+[ "$?" != 0 ] && echo "HBase exited" && exit 1
+echo "status" | hbase shell -n 2>/dev/null | head -n 1

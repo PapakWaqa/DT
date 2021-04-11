@@ -1,0 +1,65 @@
+WEB_URL=$1
+#echo "[`hostname`]"
+
+
+# Install Hadoop
+[ -d "/opt/$HDP_VER" ] && echo "Hadoop is already exists"
+[ ! -d "/opt/$HDP_VER" ] && echo -n "Install Hadoop... " && wget -qO - "$WEB_URL/pkg/$HDP_PKG_NAME" | sudo tar -zxvf - -C /opt &>/dev/null  && echo "OK"
+# Install Pig
+[ -d "/opt/$PIG_VER" ] && echo "Pig is already exists" 
+[ ! -d "/opt/$PIG_VER" ] && echo -n "Install Pig... " && wget -qO - "$WEB_URL/pkg/$PIG_PKG_NAME" | sudo tar -zxvf - -C /opt &>/dev/null  && echo "OK"
+# Install Spark
+[ -d "/opt/$SPK_VER" ] && echo "Spark is already exists"
+[ ! -d "/opt/$SPK_VER" ] && echo -n "Install Spark... " && wget -qO - "$WEB_URL/pkg/$SPK_PKG_NAME" | sudo tar -zxvf - -C /opt &>/dev/null  && echo "OK"
+# Install Hive
+[ -d "/opt/$HIV_VER" ] && echo "Hive is already exists" 
+[ ! -d "/opt/$HIV_VER" ] && echo -n "Install Hive... " && wget -qO - "$WEB_URL/pkg/$HIV_PKG_NAME" | sudo tar -zxvf - -C /opt &>/dev/null  && echo "OK"
+# Install Tez
+[ -d "/opt/$TEZ_VER" ] && echo "Tez is already exists" 
+[ ! -d "/opt/$TEZ_VER" ] && echo -n "Install Tez... " && sudo mkdir -p /opt/$TEZ_VER/conf && wget -qO - "$WEB_URL/pkg/$TEZ_PKG_NAME" |  sudo tar -zxvf - -C /opt &>/dev/null && echo "OK"
+
+
+# /etc/hosts
+wget -qO - "$WEB_URL/config/hosts" | sudo tee /etc/hosts &>/dev/null
+[ "$?" == "0" ] && echo "hosts copied"
+
+#/etc/mactohost
+wget -qO - "$WEB_URL/config/mactohost" | sudo tee /etc/mactohost &>/dev/null
+[ "$?" == "0" ] && echo "mactohost copied"
+
+
+# HADOOP CONFIG
+for xml in core-site.xml  hdfs-site.xml mapred-site.xml yarn-site.xml
+do
+  wget -qO - $WEB_URL/config/$xml | sudo tee /opt/$HDP_VER/etc/hadoop/$xml &>/dev/null
+  [ "$?" == "0" ] && echo "$xml copied"
+done
+
+# SPARK CONFIG
+for xml in spark-defaults.conf spark-env.sh 
+do
+  wget -qO - $WEB_URL/config/$xml | sudo tee /opt/$SPK_VER/conf/$xml &>/dev/null
+  [ "$?" == "0" ] && echo "$xml copied"
+done
+
+# Pig Config
+for xml in pig.properties log4j.properties
+do
+  wget -qO - "$WEB_URL/config/$xml" | sudo tee /opt/$PIG_VER/conf/$xml &> /dev/null
+  [ "$?" == "0" ] && echo "$xml copied"
+done
+
+# Hive Config
+#for xml in hive-site.xml
+#do
+#  wget -qO - "$WEB_URL/config/$xml" | sudo tee /opt/$HIV_VER/conf/$xml &> /dev/null
+#  [ "$?" == "0" ] && echo "$xml copied"
+#done
+
+# Tez Config
+for xml in tez-site.xml
+do
+  wget -qO - "$WEB_URL/config/$xml" | sudo tee /opt/$TEZ_VER/conf/$xml &> /dev/null
+  [ "$?" == "0" ] && echo "$xml copied"
+done
+echo ""
