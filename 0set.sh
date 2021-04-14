@@ -1,4 +1,7 @@
 #!/bin/bash
+
+sudo apk update && sudo  apk upgrade && sudo apk add sudo nano bash procps python3 sshpass git openjdk8 && sudo rm -rf /var/cache/apk/*
+
 echo "Copied hosts file to /etc/hosts"
 sudo cp web/config/hosts /etc/hosts
 

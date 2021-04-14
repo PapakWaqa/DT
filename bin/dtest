@@ -25,7 +25,7 @@ ssh mas01 "cat /tmp/out | grep ' Pi '"
 
 echo""
 ssh mas01 "hdfs dfs -ls /tmp/spark-eventsaa >/dev/null 2>&1"
-[ "$?" != "0" ] && ssh mas01 "hdfs dfs -mkdir /tmp/spark-events " && ssh mas01 "hdfs dfs -chmod -R 777 /tmp"
+[ "$?" != "0" ] && ssh mas01 "hdfs dfs -mkdir /tmp/spark-events >/dev/null 2>&1" && ssh mas01 "hdfs dfs -chmod -R 777 /tmp >/dev/null 2>&1"
 echo [Spark]
 ssh mas01 "spark-submit --master yarn --deploy-mode cluster --driver-memory 512m --num-executors 1 /opt/spark-3.0.2-bin-without-hadoop/examples/src/main/python/pi.py 5 2>/tmp/spk.log && cat /tmp/spk.log |grep tracking|tail -n 1"
 
