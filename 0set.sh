@@ -1,4 +1,8 @@
 #!/bin/bash
+echo "Copied hosts file to /etc/hosts"
+sudo cp web/config/hosts /etc/hosts
+
+
 cat ~/.bash_profile 2>/dev/null|grep "DT_HOME" >/dev/null
 [ "$?" == "0" ] && echo "You have been added EVN args. before" && exit 1
 

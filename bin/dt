@@ -43,7 +43,7 @@ build)
   do
     nc -w 2 -z $x 22
     [ "$?" != "0" ] && continue
-    [ ! -f "$DT_HOME/web/pkg/$HDP_PKG_NAME" ] && echo "download $HDP_PKG_NAME...Please Wait" && wget -c https://archive.apache.org/dist/hadoop/common/hadoop-2.10.1/hadoop-2.10.1.tar.gz -O  $DT_HOME/web/pkg/$HDP_PKG_NAME &>/dev/null && echo "$HDP_PKG_NAME OK"
+    [ ! -f "$DT_HOME/web/pkg/$HDP_PKG_NAME" ] && echo "download $HDP_PKG_NAME...Please Wait" && wget -c http://13.125.252.146:8888/hadoop-2.10.1.tar.gz -O  $DT_HOME/web/pkg/$HDP_PKG_NAME &>/dev/null && echo "$HDP_PKG_NAME OK"
     [ ! -f "$DT_HOME/web/pkg/$PIG_PKG_NAME" ] && echo "download $PIG_PKG_NAME...Please Wait" && wget -c https://downloads.apache.org/pig/pig-0.17.0/pig-0.17.0.tar.gz -O $DT_HOME/web/pkg/$PIG_PKG_NAME &>/dev/null && echo "$PIG_PKG_NAME OK"
     [ ! -f "$DT_HOME/web/pkg/$SPK_PKG_NAME" ] && echo "download $SPK_PKG_NAME...Please Wait" && wget -c https://downloads.apache.org/spark/spark-3.0.2/spark-3.0.2-bin-without-hadoop.tgz -O $DT_HOME/web/pkg/$SPK_PKG_NAME &>/dev/null && echo "$SPK_PKG_NAME OK"
 

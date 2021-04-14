@@ -24,16 +24,16 @@ ssh mas01 "hadoop jar /opt/hadoop-2.10.1/share/hadoop/mapreduce/hadoop-mapreduce
 ssh mas01 "cat /tmp/out | grep ' Pi '"
 
 echo""
-ssh mas01 "hdfs dfs -ls /tmp/spark-events &>/dev/null"
+ssh mas01 "hdfs dfs -ls /tmp/spark-eventsaa >/dev/null 2>&1"
 [ "$?" != "0" ] && ssh mas01 "hdfs dfs -mkdir /tmp/spark-events " && ssh mas01 "hdfs dfs -chmod -R 777 /tmp"
 echo [Spark]
 ssh mas01 "spark-submit --master yarn --deploy-mode cluster --driver-memory 512m --num-executors 1 /opt/spark-3.0.2-bin-without-hadoop/examples/src/main/python/pi.py 5 2>/tmp/spk.log && cat /tmp/spk.log |grep tracking|tail -n 1"
 
 
-echo ""
-echo [HBase]
-nc -w 1 -z hbma 22 &>/dev/null
-[ "$?" != 0 ] && echo 'hbma exited' && exit 1
-ssh hbma jps | grep 'HMaster' &>/dev/null
-[ "$?" != 0 ] && echo "HBase exited" && exit 1
-echo "status" | hbase shell -n 2>/dev/null | head -n 1
+#echo ""
+#echo [HBase]
+#nc -w 1 -z hbma 22 &>/dev/null
+#[ "$?" != 0 ] && echo 'hbma exited' && exit 1
+#ssh hbma jps | grep 'HMaster' &>/dev/null
+#[ "$?" != 0 ] && echo "HBase exited" && exit 1
+#echo "status" | hbase shell -n 2>/dev/null | head -n 1
