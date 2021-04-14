@@ -18,7 +18,7 @@
     
 <h2 id="pkg">使用到的PKGs</h2>
 
-* hadoop-2.10.1.tar.gz
+* hadoop-2.10.1.tar.gz(針對ALPINE的OPENJDK編譯過)
 * spark-3.0.2-bin-without-hadoop.tgz
 * pig-0.17.0.tar.gz
 * ache-hive-2.3.7-bin.tar.gz
