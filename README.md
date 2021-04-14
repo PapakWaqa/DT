@@ -13,6 +13,8 @@
 
 <h2 id="composition">系統架構圖</h2>
 
+![composition](https://github.com/PapakWaqa/DT/blob/main/docs/pics/DT-Architecture.jpg)
+
     
 <h2 id="pkg">使用到的PKGs</h2>
 
