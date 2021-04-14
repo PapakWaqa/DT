@@ -64,14 +64,14 @@
 ```
 [wka01]
 --------------------------------------------------------
-CPU :  Intel(R) Atom(TM) x5-Z8350 CPU @ 1.44GHz (core: 4)
-Memory : 3.3G
-IP Address : addr:192.168.XXX.XXX
-Default Gateway : 192.168.XXX.XXX
+CPU :  Intel(R) Core(TM) i7-7500U CPU @ 2.70GHz (core: 1)
+Memory : 2.9G
+IP Address : addr:192.168.126.121
+Default Gateway : 192.168.126.2
 
-openjdk version "1.8.0_252"
-OpenJDK Runtime Environment (IcedTea 3.16.0) (Alpine 8.252.09-r0)
-OpenJDK 64-Bit Server VM (build 25.252-b09, mixed mode)
+openjdk version "1.8.0_275"
+OpenJDK Runtime Environment (IcedTea 3.17.1) (Alpine 8.275.01-r0)
+OpenJDK 64-Bit Server VM (build 25.275-b01, mixed mode)
 ```
 
 * * * 
