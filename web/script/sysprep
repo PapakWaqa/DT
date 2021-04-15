@@ -21,6 +21,7 @@ sudo rm -rf /var/cache/apk/* &>/dev/null
 
 # SSH config setting
 sudo sed -i 's/^export PATH/#&/' /etc/profile  && \
-sudo sed -i '/PermitUserEnvironment/c\PermitUserEnvironment yes' /etc/ssh/sshd_config
+sudo sed -i 's/#PermitRootLogin.*/PermitRootLogin no/' /etc/ssh/sshd_config
+sudo sed -i 's/#PermitUserEnvironment.*/PermitUserEnvironment yes/' /etc/ssh/sshd_config
 sudo /etc/init.d/sshd restart &> /dev/null
 [ "$?" == "0" ] && echo "Setting SSH environment... OK"
