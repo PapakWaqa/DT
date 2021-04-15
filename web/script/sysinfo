@@ -5,7 +5,7 @@ GWIF=${gw##* }
 ips=$(ifconfig $GWIF | grep 'inet ')
 IP=$(echo $ips | cut -d' ' -f2)
 NETID=${IP%.*}
-GW=$(route -n | grep -e '^0.0.0.0' | tr -s \ - | cut -d ' ' -f2)
+GW=$(route -n | grep -e '^0.0.0.0' | tr -s ' ' | cut -d ' ' -f2)
 
 echo "[`hostname`]"
 echo "--------------------------------------------------------"
