@@ -1,3 +1,4 @@
+cnn=$(cat /proc/cpuinfo | grep 'model name' | wc -l)
 
 gw=$(route -n | grep -e "^0.0.0.0 ")
 GWIF=${gw##* }
@@ -9,9 +10,8 @@ GW=$(route -n | grep -e '^0.0.0.0' | tr -s \ - | cut -d ' ' -f2)
 echo "[`hostname`]"
 echo "--------------------------------------------------------"
 cn=$(cat /proc/cpuinfo | grep 'model name' | head -n 1 | cut -d ':' -f2 | tr -s ' ')
-echo -n "CPU : $cn (core: "
-cn=$(cat /proc/cpuinfo | grep 'model name' | wc -l)
-echo "$cn)"
+cnn=$(cat /proc/cpuinfo | grep 'model name' | wc -l)
+echo "CPU : $cn (core:$cnn)"
 
 m=$(free -mh | grep Mem:)
 echo -n "Memory : "
