@@ -35,19 +35,19 @@
 > nano DT/web/config/hosts
 ```
 127.0.0.1 localhost
-192.168.126.119 gw
-192.168.126.121 wka01
-192.168.126.122 wka02
-192.168.126.123 wka03
-192.168.126.126 mas01
-192.168.126.127 ds01
+172.29.0.10 gw
+172.29.0.11 wka01
+172.29.0.12 wka02
+172.29.0.13 wka03
+172.29.0.17 ds01
+172.29.0.18 mas01
 ```
 ***
-* 執行0set.sh,設定gw的環境變數;
-> ./0set.sh
+* 執行0set_gw.sh,設定gw的環境變數;
+> ./0set_gw.sh
 ***
-* 執行2copy_ssh_keys.sh,產生 SSH 公私鑰並派送到cluster內的所有電腦。
-> ./2copy_ssh_keys.sh
+* 執行1ssh_keygen_idcopy.sh,產生 SSH 公私鑰並派送到cluster內的所有電腦。
+> ./1ssh_keygen_idcopy.sh
 ***
 <h2 id="dt"> 使用 DT 程式部署 Hadoop </h2>
 
@@ -64,14 +64,15 @@
 ```
 [wka01]
 --------------------------------------------------------
-CPU :  Intel(R) Core(TM) i7-7500U CPU @ 2.70GHz (core: 1)
-Memory : 2.9G
-IP Address : addr:192.168.126.121
-Default Gateway : 192.168.126.2
+CPU :  Common KVM processor (core:2)
+Memory : 2.4G
+IP Address : addr:172.29.0.11
+Default Gateway : 172.29.0.254
 
 openjdk version "1.8.0_275"
 OpenJDK Runtime Environment (IcedTea 3.17.1) (Alpine 8.275.01-r0)
 OpenJDK 64-Bit Server VM (build 25.275-b01, mixed mode)
+
 ```
 
 * * * 
@@ -81,18 +82,20 @@ OpenJDK 64-Bit Server VM (build 25.275-b01, mixed mode)
 > dt sysprep
 
 ```
-Loading DT environment... OK
-Web Server is already start : 192.168.XXX.XXX:XXXX
+Loading DT environment...OK
+Web Server is already start : 172.29.0.10:8888
 [wka01]
 Add apk repositories... OK
 Update apk repositories... OK
 Install openjdk-1.8-jdk... OK
+Install Python3... OK
 Setting SSH environment... OK
+
 ```
 
 * * *
 
-* 安裝 hadoop-2.10.1、pig-0.17.0、hive-2.3.7、tez-0.9.2，複製環境變數文件、hadoop、pig、tez 配置文件
+* 安裝 hadoop-2.10.1、pig-0.17.0、hive-2.3.7、tez-0.9.2、spark-3.0.2，複製環境變數文件、hadoop、pig、tez等配置文件
 
 > dt build
 
@@ -201,22 +204,22 @@ wka03 start nodemanager...OK
 > dtest
 ```
 [HDFS]
-[HDFS]
 Live datanodes (3):
-Name: 192.168.126.121:50010 (wka01)
-Name: 192.168.126.122:50010 (wka02)
-Name: 192.168.126.123:50010 (wka03)
+Name: 172.29.0.11:50010 (wka01)
+Name: 172.29.0.12:50010 (wka02)
+Name: 172.29.0.13:50010 (wka03)
 
 [YARN]
 Total Nodes:3
-         Node-Id             Node-State Node-Http-Address       Number-of-Running-Containers
-     wka02:39031                RUNNING        wka02:8042                                  0
-     wka01:34561                RUNNING        wka01:8042                                  0
-     wka03:35587                RUNNING        wka03:8042                                  1
+         Node-Id	     Node-State	Node-Http-Address	Number-of-Running-Containers
+     wka03:43279	        RUNNING	       wka03:8042	                           0
+     wka02:46689	        RUNNING	       wka02:8042	                           0
+     wka01:37731	        RUNNING	       wka01:8042	                           0
 
 [MapReduce]
 Estimated value of Pi is 3.80000000000000000000
 
 [Spark]
-         tracking URL: http://mas01:8088/proxy/application_1618387704186_0012/
+	 tracking URL: http://mas01:8088/proxy/application_1618919509694_0004/
+
 ```
