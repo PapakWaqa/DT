@@ -1,5 +1,6 @@
 echo "[`hostname`]"
 
+
 # Repositories  
 sudo cat << EOF | sudo tee /etc/apk/repositories > /dev/null 
 http://dl-cdn.alpinelinux.org/alpine/v$(cat /etc/alpine-release | cut -d'.' -f1,2)/main

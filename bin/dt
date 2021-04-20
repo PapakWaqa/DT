@@ -3,7 +3,8 @@ echo " ____ _____"
 echo "|  _ \_   _|"
 echo "| | | || |"
 echo "| |_| || |"
-echo -e "|____/ |_|\n"
+echo "|____/ |_|"
+echo 
 echo -e "DT 21.03\n"
 
 #env|grep "DT_HOME"
@@ -19,8 +20,8 @@ c="sysinfo sysprep build list restart"
 i=$(cat /etc/hosts | grep -E "mas|wka|ds" | tr '\t' ' ' | cut -d' ' -f1)
 c=$1
 
-ps aux | grep -v grep | grep -o 'busybox httpd' &>/dev/null
-[ "$?" != "0" ] && echo -e "Start Web Server at : $WEB_URL" && busybox httpd -p 8888 -h $DT_HOME/web || echo "Web Server is already start : $WEB_URL"
+ps aux | grep -v grep | grep -o 'busybox_httpd httpd' &>/dev/null
+[ "$?" != "0" ] && echo -e "Start Web Server at : $WEB_URL" && busybox_httpd httpd -p 8888 -h $DT_HOME/web || echo "Web Server is already start : $WEB_URL"
 
 case $c in
 sysinfo)
@@ -39,6 +40,7 @@ sysprep)
   do
     nc -w 2 -z $x 22 &>/dev/null
     [ "$?" != "0" ] && continue
+    ssh $x "wget -qO - $WEB_URL/config/mactohost | sudo tee /etc/mactohost &>/dev/null [ \"$?\" == \"0\" ] && echo 'mactohost copied' || echo 'failed' "
     ssh $x "wget -qO - $WEB_URL/script/sysprep | bash"
     echo ""
   done
