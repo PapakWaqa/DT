@@ -33,7 +33,7 @@ sysinfo)
   done
   ;;
 sysprep)
-  source $DT_HOME/conf/DT.conf
+#  source $DT_HOME/conf/DT.conf
   envsubst < $DT_HOME/web/config/environment.tpl >$DT_HOME/web/config/environment
   while read -r line ; do eval echo $line; done <$DT_HOME/conf/DT.conf|cut -d ' ' -f2|tail -n +6 >>$DT_HOME/web/config/environment
   for x in $i
