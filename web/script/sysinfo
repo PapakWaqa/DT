@@ -23,7 +23,9 @@ echo "Default Gateway : $GW"
 echo ""
 
 java -version &> /tmp/java 
-[ "$?" != "0" ] && echo 'JAVA NOT FOUND' || cat /tmp/java
+[ "$?" != "0" ] && echo -e "\033[41;37mJAVA NOT FOUND\033[0m" || cat /tmp/java
+
+
 echo ""
 
 

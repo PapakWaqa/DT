@@ -13,7 +13,7 @@ echo -e "DT 21.03\n"
 [ -f $DT_HOME/conf/DT.conf ] && source $DT_HOME/conf/DT.conf && echo 'Loading DT environment...OK'
 
 
-[ "$#" != 1 ] && echo 'dt [sysinfo | sysprep | build | changn | restart]' && exit 1
+[ "$#" != 1 ] && echo 'dt [sysinfo | sysprep | build | list | restart]' && exit 1
 c="sysinfo sysprep build changn restart"
 [[ ! "${c}" =~ "$1" ]] && echo "Oops, wrong command" && exit 1
 
@@ -59,13 +59,7 @@ build)
     ssh $x "wget -qO - $WEB_URL/script/build | bash  /dev/stdin $WEB_URL"
   done
   ;;
-changn)
-#This is for cnt teaching envirmoment
-  for x in $i
-  do
-    echo [$x]
-    ssh $x "wget -qO - $WEB_URL/config/mactohost | sudo tee /etc/mactohost &>/dev/null; [ \"$?\" == \"0\" ] && echo 'mactohost copied' || echo 'failed' "
-  done
+list)
 
   ;;
 restart)

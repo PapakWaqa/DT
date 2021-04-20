@@ -23,7 +23,7 @@ SPARK_DIST_CLASSPATH=/opt/hadoop-2.10.1/etc/hadoop/:/opt/hadoop-2.10.1/share/had
 PATH=/opt/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:/usr/lib/jvm/java-1.8-openjdk/bin:/opt/hadoop-2.10.1/bin:/opt/spark-3.0.2-bin-without-hadoop/bin:/opt/spark-3.0.2-bin-without-hadoop/sbin:/opt/hadoop-2.10.1/sbin:/opt/pig-0.17.0/bin:/opt/apache-hive-2.3.7-bin/bin
 
 DT_HOME=/home/bigred/DT
-PATH=/home/bigred//home/bigred/DT/bin:/home/bigred//home/bigred/DT/bin:/home/bigred//home/bigred/DT/bin:/home/bigred/DT/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin
+
 WEB_HOST=172.29.0.10
 WEB_PORT=8888
 WEB_URL=172.29.0.10:8888
