@@ -5,11 +5,6 @@ sudo apk update && sudo  apk upgrade && sudo apk add sudo nano bash procps pytho
 echo "Copied hosts file to /etc/hosts"
 sudo cp web/config/hosts /etc/hosts
 
-#
-echo -n "Copied mactohost file to /etc/"
-sudo cp web/config/mactohost /etc/mactohost && echo "...OK" || echo "failed"
-
-
 
 echo "Copied busybox_httpd to /bin"
 sudo cp ~/DT/web/pkg/busybox_httpd /bin/busybox_httpd
