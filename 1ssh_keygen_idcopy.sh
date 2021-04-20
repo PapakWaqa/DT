@@ -8,6 +8,6 @@ which ssh > /dev/null 2>&1
 echo $USER>>password.txt
 for i in wka01 wka02 wka03 mas01 ds01
 do
-    ssh-keyscan -f ~/.ssh/id_rsa.pub $i >> ~/.ssh/known_hosts 2>/dev/null
+    ssh-keyscan -t rsa  $i >> ~/.ssh/known_hosts 2>/dev/null
     sshpass -f password.txt ssh-copy-id bigred@$i
 done    
