@@ -27,35 +27,35 @@ wget -qO - "$WEB_URL/config/hosts" | sudo tee /etc/hosts &>/dev/null
 # HADOOP CONFIG
 for xml in core-site.xml  hdfs-site.xml mapred-site.xml yarn-site.xml
 do
-  wget -qO - $WEB_URL/config/$xml | sudo tee /opt/$HDP_VER/etc/hadoop/$xml &>/dev/null
+  wget -qO - $WEB_URL/config/hdp/$xml | sudo tee /opt/$HDP_VER/etc/hadoop/$xml &>/dev/null
   [ "$?" == "0" ] && echo "$xml copied"
 done
 
 # SPARK CONFIG
 for xml in spark-defaults.conf spark-env.sh 
 do
-  wget -qO - $WEB_URL/config/$xml | sudo tee /opt/$SPK_VER/conf/$xml &>/dev/null
+  wget -qO - $WEB_URL/config/spk/$xml | sudo tee /opt/$SPK_VER/conf/$xml &>/dev/null
   [ "$?" == "0" ] && echo "$xml copied"
 done
 
 # Pig Config
 for xml in pig.properties log4j.properties
 do
-  wget -qO - "$WEB_URL/config/$xml" | sudo tee /opt/$PIG_VER/conf/$xml &> /dev/null
+  wget -qO - "$WEB_URL/config/pig/$xml" | sudo tee /opt/$PIG_VER/conf/$xml &> /dev/null
   [ "$?" == "0" ] && echo "$xml copied"
 done
 
 # Hive Config
 #for xml in hive-site.xml
 #do
-#  wget -qO - "$WEB_URL/config/$xml" | sudo tee /opt/$HIV_VER/conf/$xml &> /dev/null
+#  wget -qO - "$WEB_URL/config/hiv/$xml" | sudo tee /opt/$HIV_VER/conf/$xml &> /dev/null
 #  [ "$?" == "0" ] && echo "$xml copied"
 #done
 
 # Tez Config
 for xml in tez-site.xml
 do
-  wget -qO - "$WEB_URL/config/$xml" | sudo tee /opt/$TEZ_VER/conf/$xml &> /dev/null
+  wget -qO - "$WEB_URL/config/tez/$xml" | sudo tee /opt/$TEZ_VER/conf/$xml &> /dev/null
   [ "$?" == "0" ] && echo "$xml copied"
 done
 echo ""

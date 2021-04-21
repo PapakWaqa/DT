@@ -1,0 +1,104 @@
+#!/bin/bash
+which kvm &>/dev/null
+[ "$?" != "0" ] && echo "pls, install kvm first" && exit 1
+
+[ "`hostname`" != "cvn71" ] && [ "`hostname`" != "beihu" ] && echo "oops, wrong host" && exit 1
+
+[ "$#" == "0" ] && echo "k3s [ps | clean | shrink] | [start vm] | [stop vm]" && exit 1
+c="ps start clean shrink stop"
+[[ ! "${c}" =~ "$1" ]] && echo "k3s [ps | clean | shrink] | [start vm] | [stop vm]" && exit 1
+
+[ ! -f alpine.base ] && echo "Oops, alpine.base not find" && exit 1 
+
+m=$(free -mh | grep Mem: | tr -s ' ' | cut -d' ' -f 2 | tr 'G' ' ' | cut -d'.' -f1)
+[ "$m" -gt "6" ] && ms=2560 && [ "$m" -gt "30" ] && ms=5120 && [ "$m" -gt "60" ] && ms=10240
+
+case $1 in
+start)
+  [ "$2" == "" ] && cat ~/wk/cnt/mactohost | grep '10:' | cut -d' ' -f2,3 && exit 1
+
+  /home/bigred/wk/cnt/bin/kvmnet.sh
+
+  if [ "$2" != "base" ]; then
+     s=$(ps aux)
+     echo $s | grep "name $2 " &>/dev/null
+     [ "$?" == "0" ] && echo "$2 started" && exit 1
+
+     vn=$(cat ~/wk/cnt/mactohost | grep " $2 " | cut -d' ' -f2,3)
+     [ "$vn" == "" ] && cat ~/wk/cnt/mactohost | grep '10:' | cut -d' ' -f2,3 && exit 1
+
+     [ ! -f "$2.qcow2" ] && cp alpine.base "$2.qcow2" 
+
+     ifconfig -a | grep "$2" &>/dev/null
+     if [ "$?" != "0" ]; then
+        sudo tunctl -u bigred -t "$2" &>/dev/null
+        [ "$?" != "0" ] && echo "Oops, can not create TUN/TAP" && exit 1
+        sudo ifconfig "$2" up
+        sudo brctl addif kvmbr29 "$2"
+     fi
+
+     c="qemu-system-x86_64 -name $2 -enable-kvm -cpu kvm64 -smp cpus=2 -m $ms -net nic,macaddr=52:54:72:16:10:${2#*lcs} -net tap,ifname=$2,script=no,downscript=no -hda $2.qcow2 -nographic -boot c"
+     #which gnome-terminal &>/dev/null
+     #if [ "$?" == "0" ]; then
+     #   gnome-terminal --tab -t "bigred@$vn" --geometry=98x28 --command "$c"  &>/dev/null
+     #else
+        eval "$c" &>/dev/null &
+     #fi
+
+     exit 0
+  else
+     if [ -f "alpine.base" ]; then
+        qemu-system-x86_64 -enable-kvm -cpu kvm64 -m "$ms" -hda "alpine.base" -nographic -boot c
+        echo ""
+     fi
+  fi
+  ;;
+ps)
+  ps aux | grep -v grep | grep "qemu-system-x86_64"
+  exit 0
+  ;;
+clean)
+  read -p "Are you sure ? (YES/NO) " ans
+  [ "$ans" != "YES" ] && echo "do nothing" && exit 1
+
+  s=$(ps aux)
+  echo $s | grep "name lcs" &>/dev/null
+  [ "$?" == "0" ] && echo "pls stop VM first" && exit 1
+
+  rm lcs*.qcow2 &>/dev/null
+  ;;
+shrink)
+  read -p "Are you sure ? (YES/NO) " ans
+  [ "$ans" != "YES" ] && echo "do nothing" && exit 1
+
+  s=$(ps aux)
+  echo $s | grep "name lcs" &>/dev/null
+  [ "$?" == "0" ] && echo "pls stop VM first" && exit 1
+
+  n=$(ls lcs*.qcow2 2>/dev/null)
+  for x in $n alpine.base
+  do
+    qemu-img convert -c -O qcow2 $x /tmp/k3s.qcow2
+    [ "$?" == "0" ] && echo "$x shrinked" 
+    mv /tmp/k3s.qcow2 $x
+  done
+  ;;
+stop)
+  [ "$2" == "" ] && cat ~/wk/cnt/mactohost | grep "10:" | cut -d' ' -f2,3 && exit 1
+  cat ~/wk/cnt/mactohost | grep " $2 " &>/dev/null
+  [ "$?" != "0" ] && cat ~/wk/cnt/mactohost | grep "10:" | cut -d' ' -f2,3 && exit 1
+
+  n=${2#*lcs}; nid=$(ifconfig kvmbr29 | grep 'inet ' | tr -s ' ' | cut -d' ' -f3 | cut -d'.' -f1,2,3)
+  nc -w 1 -z "$nid.$n" 22 &>/dev/null
+  [ "$?" != "0" ] && echo "Oops, $2 not running" &&  exit 1
+
+  sshpass -p bigred ssh "$nid.$n" sudo poweroff &>/dev/null
+  [ "$?" == "0" ] && echo "$2 shutdown"
+  ;;
+*)
+  echo "k3s [ps | clean | shrink] | [start vm] | [stop vm]" && exit 1
+  ;;
+esac
+
+exit 0
+
