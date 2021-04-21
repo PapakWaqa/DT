@@ -14,7 +14,7 @@ echo -e "DT 21.03\n"
 
 
 [ "$#" != 1 ] && echo 'dt [sysinfo | sysprep | build | list | restart]' && exit 1
-c="sysinfo sysprep build changn restart"
+c="sysinfo sysprep build list restart"
 [[ ! "${c}" =~ "$1" ]] && echo "Oops, wrong command" && exit 1
 
 i=$(cat /etc/hosts | grep -E "mas|wka|ds" | tr '\t' ' ' | cut -d' ' -f1)
@@ -60,7 +60,7 @@ build)
   done
   ;;
 list)
-
+  hls
   ;;
 restart)
   read -p "Are you sure ? (YES/NO) " ans
