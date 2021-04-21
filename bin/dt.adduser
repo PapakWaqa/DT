@@ -1,5 +1,5 @@
 #!/bin/bash
-[ -f $DT_HOME/conf/dt-env.sh ] && source $DT_HOME/conf/dt-env.sh && echo 'Loading DT environment...OK'
+[ -f $DT_HOME/conf/DT.conf ] && source $DT_HOME/conf/DT.conf && echo 'Loading DT environment...OK'
 
 # build ds01
 nc -w 2 -z ds01 22
@@ -9,6 +9,7 @@ nc -w 2 -z ds01 22
 # ssh ds01 "wget -qO - $WEB_URL/script/build | bash"
 
 # Create User on ds host
+#get ds ip
 ds=$(cat /etc/hosts | grep -E "ds" | tr '\t' ' ' | cut -d' ' -f1)
 
 echo "--- gw ---"
