@@ -30,10 +30,3 @@ echo [Spark]
 ssh mas01 "spark-submit --master yarn --deploy-mode cluster --driver-memory 512m --num-executors 1 /opt/spark-3.0.2-bin-without-hadoop/examples/src/main/python/pi.py 5 2>/tmp/spk.log && cat /tmp/spk.log |grep tracking|tail -n 1"
 
 
-#echo ""
-#echo [HBase]
-#nc -w 1 -z hbma 22 &>/dev/null
-#[ "$?" != 0 ] && echo 'hbma exited' && exit 1
-#ssh hbma jps | grep 'HMaster' &>/dev/null
-#[ "$?" != 0 ] && echo "HBase exited" && exit 1
-#echo "status" | hbase shell -n 2>/dev/null | head -n 1

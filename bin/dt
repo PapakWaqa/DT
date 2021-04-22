@@ -7,15 +7,18 @@ echo "|____/ |_|"
 echo 
 echo -e "DT 21.03\n"
 
-#env|grep "DT_HOME"
-#[ "$?" != "0" ] && export DT_HOME=~/DT && export PATH=$DT_HOME/bin:$PATH && echo "remeber to run set.sh"
-
+#LOAD DT Project ENV
 [ -f $DT_HOME/conf/DT.conf ] && source $DT_HOME/conf/DT.conf && echo 'Loading DT environment...OK'
-
 
 [ "$#" != 1 ] && echo 'dt [sysinfo | sysprep | build | list | restart]' && exit 1
 c="sysinfo sysprep build list restart"
-[[ ! "${c}" =~ "$1" ]] && echo "Oops, wrong command" && exit 1
+
+#way one, the command have to completely match 
+echo "$c" | grep -w $1 &>/dev/null
+[ "$?" == "1" ] && echo "Oops, wrong command" && exit 1
+
+#way two, the command just need to match one character, like "s" will be ok,but "z"
+#[[ ! "${c}" =~ "$1" ]] && echo "Oops, wrong command" && exit 1
 
 i=$(cat /etc/hosts | grep -E "mas|wka|ds" | tr '\t' ' ' | cut -d' ' -f1)
 c=$1
