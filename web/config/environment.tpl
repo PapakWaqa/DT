@@ -19,5 +19,4 @@ JAVA_HOME=/usr/lib/jvm/java-1.8-openjdk
 PIG_HOME=/opt/$PIG_VER
 HADOOP_CONF_DIR=/opt/$HDP_VER/etc/hadoop/
 HADOOP_ROOT_LOGGER=WARN,console
-SPARK_DIST_CLASSPATH=/opt/hadoop-2.10.1/etc/hadoop/:/opt/hadoop-2.10.1/share/hadoop/common/lib/*:/opt/hadoop-2.10.1/share/hadoop/common/*:/opt/hadoop-2.10.1/share/hadoop/hdfs:/opt/hadoop-2.10.1/share/hadoop/hdfs/lib/*:/opt/hadoop-2.10.1/share/hadoop/hdfs/*:/opt/hadoop-2.10.1/share/hadoop/yarn/lib/*:/opt/hadoop-2.10.1/share/hadoop/yarn/*:/opt/hadoop-2.10.1/share/hadoop/mapreduce/lib/*:/opt/hadoop-2.10.1/share/hadoop/mapreduce/*:/opt/apache-tez-0.9.2-bin/conf:/opt/apache-tez-0.9.2-bin/*:/opt/apache-tez-0.9.2-bin/lib/*:/opt/hadoop-2.10.1/contrib/capacity-scheduler/*.jar
 PATH=/opt/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:/usr/lib/jvm/java-1.8-openjdk/bin:/opt/$HDP_VER/bin:/opt/$SPK_VER/bin:/opt/$SPK_VER/sbin:/opt/$HDP_VER/sbin:/opt/$PIG_VER/bin:/opt/$HIV_VER/bin

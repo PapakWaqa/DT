@@ -4,11 +4,9 @@
 # build ds01
 nc -w 2 -z ds01 22
 [ "$?" != "0" ] && echo "ds01 not found" && exit;
-# ssh ds01 "wget -qO - $WEB_URL/script/sysinfo | bash"
-# ssh ds01 "wget -qO - $WEB_URL/script/sysprep | bash"
-# ssh ds01 "wget -qO - $WEB_URL/script/build | bash"
 
 # Create User on ds host
+
 #get ds ip
 ds=$(cat /etc/hosts | grep -E "ds" | tr '\t' ' ' | cut -d' ' -f1)
 
@@ -19,7 +17,7 @@ do
   id -u $user &>/dev/null
   [ "$?" == 0 ] && echo "$user already exists" && continue
   sudo useradd -m -s /bin/bash $user &>/dev/null && echo $user:$password |sudo chpasswd &>/dev/null && echo "Create $user"
-  echo "sshpass -p'$user' ssh $user@ds01 && exit" | sudo tee -a /home/$user/.bashrc &> /dev/null
+  echo "sshpass -p'$password' ssh $user@ds01 && exit" | sudo tee -a /home/$user/.bashrc &> /dev/null
 done < $DT_HOME/conf/userlist
 
 # Create User on ds01
