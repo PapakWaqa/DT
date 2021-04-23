@@ -57,8 +57,8 @@ build)
     [ ! -f "$DT_HOME/web/pkg/$SPK_PKG_NAME" ] && echo "download $SPK_PKG_NAME...Please Wait" && wget -c https://downloads.apache.org/spark/spark-3.0.2/spark-3.0.2-bin-without-hadoop.tgz -O $DT_HOME/web/pkg/$SPK_PKG_NAME &>/dev/null && echo "$SPK_PKG_NAME OK"
     [ ! -f "$DT_HOME/web/pkg/$HIV_PKG_NAME" ] && echo "download $HIV_PKG_NAME...Please Wait" && wget -c https://archive.apache.org/dist/hive/hive-2.3.7/apache-hive-2.3.7-bin.tar.gz -O $DT_HOME/web/pkg/$HIV_PKG_NAME &>/dev/null && echo "$HIV_PKG_NAME OK"
     [ ! -f "$DT_HOME/web/pkg/$TEZ_PKG_NAME" ] && echo "download $TEZ_PKG_NAME...Please Wait" && wget -c https://downloads.apache.org/tez/0.9.2/apache-tez-0.9.2-bin.tar.gz -O $DT_HOME/web/pkg/$TEZ_PKG_NAME &>/dev/null && echo "$TEZ_PKG_NAME OK"
-    ssh $x "wget -qO - $WEB_URL/script/build0 | bash"
-    ssh $x "wget -qO - $WEB_URL/script/build | bash"
+    ssh $x "wget -qO - $WEB_URL/script/build0 | bash /dev/stdin $WEB_URL"
+    ssh $x "wget -qO - $WEB_URL/script/build | bash /dev/stdin $WEB_URL"
   done
   ;;
 list)
