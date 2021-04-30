@@ -1,0 +1,9 @@
+create external table customer (
+sn int,
+first_name String,
+sec_name String,
+age int,
+job String)
+ ROW FORMAT DELIMITED FIELDS TERMINATED BY ',' LINES TERMINATED BY '\n' LOCATION '/dataset';
+
+

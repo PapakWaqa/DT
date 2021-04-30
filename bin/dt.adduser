@@ -36,13 +36,16 @@ echo "---hdfs---"
 while read user password
 do
   ssh -n mas01 "hdfs dfs -mkdir -p /user/$user && hdfs dfs -chown $user:bigboss /user/$user && hdfs dfs -chmod 770 /user/$user" &>/dev/null  && echo "Create $user HDFS home...OK" 
+  ssh -n mas01 "hdfs dfs -mkdir -p /user/$user/hive && hdfs dfs -chown $user:bigboss /user/$user/hive && hdfs dfs -chmod 770 /user/$user/hive" &>/dev/null  && echo "Create $user HDFS hive home...OK" 
+  ssh -n mas01 "hdfs dfs -mkdir -p /user/$user/tmp  && hdfs dfs -chown $user:bigboss /user/$user/tmp && hdfs dfs -chmod 770 /user/$user/tmp" &>/dev/null  && echo "Create $user tmp...OK" 
 done < $DT_HOME/conf/userlist
 
 # Hive reset db
 while read user password
 do
-  sshpass -p $password ssh -n $user@ds01 "schematool -dbType derby -initSchema"  && echo "Init $user derby...OK"
-  sshpass -p $password ssh -n $user@ds01 " wget -q $WEB_URL/config/.hiverc"  && echo "Add $user .hiverc...OK"
+  sshpass -p $password ssh -n $user@ds01 "schematool -dbType derby -initSchema &>/dev/null"  && echo "Init $user derby...OK"
+  sshpass -p $password ssh -n $user@ds01 " wget -q $WEB_URL/config/.hiverc &>/dev/null"  && echo "Add $user .hiverc...OK"
+  sshpass -p $password ssh -n $user@ds01 "sed -i  s/'\$user'/$user/g .hiverc &>/dev/null"  && echo "modify hiverc for $user...OK"
 done < $DT_HOME/conf/userlist
 
-ssh mas01 "hdfs dfs -chmod -R 777 /tmp"
+ssh mas01 "hdfs dfs -chmod -R 777 /tmp &>/dev/null " && echo '/tmp chmod to 777'

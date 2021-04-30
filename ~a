@@ -1,0 +1,4 @@
+set hive.cli.print.header=true;
+set hive.execution.engine=tez
+set hive.metastore.warehouse.dir=/user/bigred/hive;
+set hive.exec.scratchdir=/user/bigred/tmp;

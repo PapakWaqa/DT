@@ -1,4 +1,4 @@
 set hive.cli.print.header=true;
-set hive.execution.engine=tez
-set hive.metastore.warehouse.dir=/user/$USER/hive;
-set hive.exec.scratchdir=/user/$USER/tmp;
+set hive.execution.engine=tez;
+set hive.metastore.warehouse.dir=/user/$user/hive;
+set hive.exec.scratchdir=/user/$user/tmp;
